@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Larp City — Official Site</title>
+  <meta name="description" content="Larp City is a Roblox roleplay game. Read the wiki, check the latest updates, grab codes and join the community." />
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="index">
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <span class="hero-badge">🎮 A Roblox roleplay game</span>
+        <h1 class="hero-title">Larp City</h1>
+        <p class="hero-tagline" id="tagline"></p>
+        <div class="hero-actions">
+          <a class="btn btn-play" data-play href="#" target="_blank" rel="noopener">▶ Play on Roblox</a>
+          <a class="btn btn-ghost" href="wiki.html">📖 Read the Wiki</a>
+          <a class="btn btn-discord" id="discord-btn" href="#" target="_blank" rel="noopener">💬 Join Discord</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="container"><div class="stats" id="stats"></div></div>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Your city, your story</h2>
+            <p class="muted">Everything you can do in Larp City.</p>
+          </div>
+        </div>
+        <div class="grid grid-3">
+          <div class="card"><div class="feature-icon">💼</div><h3>Work real jobs</h3><p class="muted">Become a cop, medic, taxi driver and more. Earn paychecks and rank up.</p></div>
+          <div class="card"><div class="feature-icon">🚗</div><h3>Drive your dream car</h3><p class="muted">Buy, customise and show off vehicles from the dealership.</p></div>
+          <div class="card"><div class="feature-icon">🏠</div><h3>Own a home</h3><p class="muted">Buy a house, decorate it and invite your friends over.</p></div>
+          <div class="card"><div class="feature-icon">🎭</div><h3>Roleplay freely</h3><p class="muted">Create your character and live out any story you want with other players.</p></div>
+          <div class="card"><div class="feature-icon">📱</div><h3>In-game phone</h3><p class="muted">Text friends, spawn cars, check your bank and accept job calls.</p></div>
+          <div class="card"><div class="feature-icon">🎉</div><h3>Regular updates</h3><p class="muted">New jobs, cars and events added all the time.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Explore the wiki</h2>
+            <p class="muted">Guides for every job, place and system in the city.</p>
+          </div>
+          <a class="btn btn-ghost btn-sm" href="wiki.html">Open wiki →</a>
+        </div>
+        <div class="grid grid-3" id="home-categories"></div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Latest updates</h2>
+            <p class="muted">What's new in the city.</p>
+          </div>
+          <a class="btn btn-ghost btn-sm" href="updates.html">All updates →</a>
+        </div>
+        <div class="grid grid-2" id="home-updates"></div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta">
+          <h2 class="section-title">Ready to move in?</h2>
+          <p class="muted">Jump into Larp City now. Grab a free code on the way in.</p>
+          <div class="hero-actions" style="margin-top:1.5rem">
+            <a class="btn btn-play" data-play href="#" target="_blank" rel="noopener">▶ Play now</a>
+            <a class="btn btn-ghost" href="codes.html">🎁 Get codes</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/data/wiki.js"></script>
+  <script src="assets/js/data/updates.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
