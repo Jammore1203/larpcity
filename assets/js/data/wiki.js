@@ -11,13 +11,13 @@
 //      | tables | like | this |
 // ============================================================
 window.WIKI_CATEGORIES = [
-  { id: "getting-started", name: "Getting Started", icon: "🚀" },
-  { id: "careers", name: "Careers", icon: "💼" },
-  { id: "money", name: "Making Money", icon: "💵" },
-  { id: "rep", name: "Reputation", icon: "⭐" },
-  { id: "vehicles", name: "Vehicles", icon: "🚗" },
-  { id: "property", name: "Property & Style", icon: "🏠" },
-  { id: "map", name: "Map", icon: "🗺️" },
+  { id: "getting-started", name: "Getting Started" },
+  { id: "careers", name: "Careers" },
+  { id: "money", name: "Making Money" },
+  { id: "rep", name: "Reputation" },
+  { id: "vehicles", name: "Vehicles" },
+  { id: "property", name: "Property & Style" },
+  { id: "map", name: "Map" },
 ];
 
 window.WIKI_ARTICLES = [
@@ -159,18 +159,18 @@ Everything you click lives on your phone. Press **P** (or tap the phone button) 
 
 | App | Key | What it does |
 |---|---|---|
-| 💼 Career | - | Your level, skill tree, specialisation and side hustle. See [[levels-skill-trees]]. |
-| 📻 Radio | R | Pick a station. Larp FM has its own DJ. |
-| in LinkedOut | I | Run your company. See [[companies]]. |
-| 🚗 Garage | G | Bring out any vehicle you own. |
-| ⭐ Rep | - | Your [[reputation]] tier, Heat and how to fix them. |
-| ✈️ Travel | - | Fly to the airports and your properties. |
-| 🏆 Leaderboards | B | Net worth, Clout and money earned today. |
-| 🛒 Store | Y | Game passes, cash packs and extras. See [[store]]. |
-| 🔔 Messages | - | Every notification you've had. |
-| 🎨 Customize | - | Personalise your phone. |
-| ⚙️ Settings | O | Graphics, units (MPH or KM/H), HUD size and more. |
-| ❓ Tutorial | - | Replay the tour. |
+| Career | - | Your level, skill tree, specialisation and side hustle. See [[levels-skill-trees]]. |
+| Radio | R | Pick a station. Larp FM has its own DJ. |
+| LinkedOut | I | Run your company. See [[companies]]. |
+| Garage | G | Bring out any vehicle you own. |
+| Rep | - | Your [[reputation]] tier, Heat and how to fix them. |
+| Travel | - | Fly to the airports and your properties. |
+| Leaderboards | B | Net worth, Clout and money earned today. |
+| Store | Y | Game passes, cash packs and extras. See [[store]]. |
+| Messages | - | Every notification you've had. |
+| Customize | - | Personalise your phone. |
+| Settings | O | Graphics, units (MPH or KM/H), HUD size and more. |
+| Tutorial | - | Replay the tour. |
 
 ## Wallpapers
 Live phone wallpapers (Web, Money Rain, Aurora, Warp Speed and Stonks) can be bought in the [[store]].
@@ -1340,39 +1340,39 @@ Bought once with Robux, kept forever on every save.
 
 | Pass | What you get |
 |---|---|
-| 💸 **2x Cash** | Double money from sessions, gigs, jobs, sponsors and passive income. Forever, on every save. |
-| 👑 **VIP** | +25% cash, double daily login rewards, a gold crown on your name tag and a [VIP] chat tag. |
-| 💾 **+4 Save Slots** | Run 8 different lives at once instead of 4. |
+| **2x Cash** | Double money from sessions, gigs, jobs, sponsors and passive income. Forever, on every save. |
+| **VIP** | +25% cash, double daily login rewards, a gold crown on your name tag and a [VIP] chat tag. |
+| **+4 Save Slots** | Run 8 different lives at once instead of 4. |
 
 ## Cash packs
 Cash packs grow with your passive income, so they're never worthless late game. They aren't multiplied by 2x Cash or VIP.
 
 | Pack | You get |
 |---|---|
-| 💵 **Pocket Money** | $25,000 or 30 minutes of your passive income, whichever is bigger |
-| 💰 **Brand Deal** | $100,000 or 2 hours of your passive income, whichever is bigger |
-| 🤑 **Viral Moment** | $350,000 or 6 hours of your passive income, whichever is bigger |
-| 🏦 **Exit Liquidity** | $1,500,000 or 24 hours of your passive income, whichever is bigger |
+| **Pocket Money** | $25,000 or 30 minutes of your passive income, whichever is bigger |
+| **Brand Deal** | $100,000 or 2 hours of your passive income, whichever is bigger |
+| **Viral Moment** | $350,000 or 6 hours of your passive income, whichever is bigger |
+| **Exit Liquidity** | $1,500,000 or 24 hours of your passive income, whichever is bigger |
 
 ## Extras
 Looks and perks you buy with **in-game cash** (taken from the save you're playing). Once bought they stay on your whole account. Perks can be switched off in the Store.
 
 | Extra | Cash price | What it does |
 |---|---|---|
-| 🖼️ **All Wallpapers** | $1,000,000 | Every live wallpaper, and any we add later. |
-| 🕸️ **Web** | $250,000 | A glowing web of dots that reaches for your cursor. |
-| 💸 **Money Rain** | $250,000 | Falling cash, W's, L's and stonks. Your cursor parts the rain. |
-| 🌌 **Aurora** | $250,000 | Slow northern lights over a starry sky. |
-| 🚀 **Warp Speed** | $250,000 | Hyperspace stars that steer toward your cursor. |
-| 📈 **Stonks** | $250,000 | A live chart that only goes up. Mostly. |
-| ☑️ **Verified Check** | $500,000 | A blue check next to your name tag and in chat. Totally legit. Trust. |
-| 📯 **Air Horn** | $750,000 | Press T to blast an air horn everyone nearby hears. 10 second cooldown. |
-| 🌈 **Rainbow Name** | $1,000,000 | Your name tag and chat name cycle through the rainbow. |
-| 🏷️ **Custom Title** | $2,000,000 | Write your own title above your name tag (24 characters, filtered). |
-| 💵 **Money Trail** | $1,500,000 | Dollar bills fly off you wherever you walk. Everyone sees it. |
-| 📸 **Paparazzi** | $2,500,000 | Camera flashes and shutter clicks follow you everywhere. Main character energy. |
+| **All Wallpapers** | $1,000,000 | Every live wallpaper, and any we add later. |
+| **Web** | $250,000 | A glowing web of dots that reaches for your cursor. |
+| **Money Rain** | $250,000 | Falling cash, W's, L's and stonks. Your cursor parts the rain. |
+| **Aurora** | $250,000 | Slow northern lights over a starry sky. |
+| **Warp Speed** | $250,000 | Hyperspace stars that steer toward your cursor. |
+| **Stonks** | $250,000 | A live chart that only goes up. Mostly. |
+| **Verified Check** | $500,000 | A blue check next to your name tag and in chat. Totally legit. Trust. |
+| **Air Horn** | $750,000 | Press T to blast an air horn everyone nearby hears. 10 second cooldown. |
+| **Rainbow Name** | $1,000,000 | Your name tag and chat name cycle through the rainbow. |
+| **Custom Title** | $2,000,000 | Write your own title above your name tag (24 characters, filtered). |
+| **Money Trail** | $1,500,000 | Dollar bills fly off you wherever you walk. Everyone sees it. |
+| **Paparazzi** | $2,500,000 | Camera flashes and shutter clicks follow you everywhere. Main character energy. |
 
-**📣 Server Announcement** ($1,000,000): A message from you on every player's screen in this server for 8 seconds. Filtered.
+**Server Announcement** ($1,000,000): A message from you on every player's screen in this server for 8 seconds. Filtered.
 
 ## Daily login reward
 Claim once a day. Miss a day and the streak starts again from day 1. After day 7 it loops back round. VIP doubles it.

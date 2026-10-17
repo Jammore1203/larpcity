@@ -20,7 +20,7 @@
 
   function formatDate(iso) {
     const d = new Date(iso + "T00:00:00");
-    return isNaN(d) ? iso : d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    return isNaN(d) ? iso : d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
   }
 
   // ---------- tiny Markdown renderer ----------
@@ -72,7 +72,7 @@
         const [head, ...rest] = body;
         out.push(
           `<div class="table-wrap"><table><thead><tr>${cells(head).map((c) => `<th>${inline(c)}</th>`).join("")}</tr></thead><tbody>` +
-            rest.map((r) => `<tr>${cells(r).map((c) => `<td>${inline(c)}</td>`).join("")}</tr>`).join("") +
+            rest.map((r) => `<tr>${cells(r).map((c) => `<td${/^(\$[\d,]|\d[\d,.]*( mph|s|m|%)?$|Free$)/.test(c) ? ' class="num"' : ""}>${inline(c)}</td>`).join("")}</tr>`).join("") +
             `</tbody></table></div>`
         );
         continue;
@@ -111,35 +111,39 @@
 
   // ---------- header & footer ----------
   const NAV = [
-    ["index", "index.html", "Home"],
+    ["index", "index.html", "Front Page"],
     ["wiki", "wiki.html", "Wiki"],
-    ["updates", "updates.html", "Updates"],
+    ["updates", "updates.html", "Patch Notes"],
     ["store", "store.html", "Store"],
     ["rules", "rules.html", "Rules"],
   ];
+  const today = new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  const name = esc(S.name || "Larp City");
+  const wordmark = (cls = "") =>
+    `<a class="wordmark display ${cls}" href="index.html">${name.replace(/(\S+)$/, "<span>$1</span>")}</a>`;
 
   function renderChrome() {
+    const home = page === "index";
     const header = document.createElement("header");
-    header.className = "site-header";
+    header.className = "site-header" + (home ? " home" : "");
     header.innerHTML = `
-      <div class="container nav-row">
-        <a class="brand" href="index.html"><span class="brand-mark">LC</span><span>${esc(S.name || "Larp City")}</span></a>
-        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
-        <nav class="nav-links">
-          ${NAV.map(([id, href, label]) => `<a href="${href}"${id === page ? ' class="active" aria-current="page"' : ""}>${label}</a>`).join("")}
-          <a class="btn btn-play btn-sm" href="${esc(S.robloxUrl || "#")}" target="_blank" rel="noopener">▶ Play</a>
-        </nav>
-      </div>`;
+      <div class="topbar"><div class="container">
+        <span>Mayflex<span class="hide-sm dim"> · ${esc(today)}</span></span>
+        <a href="${esc(S.robloxUrl || "#")}" target="_blank" rel="noopener">Play free on Roblox →</a>
+      </div></div>
+      ${home ? `<div class="container masthead">
+        <div class="masthead-name display">${name}</div>
+        <div class="masthead-line"><span class="hide-sm">Mayflex edition</span><em>${esc(S.motto || "")}</em><span class="hide-sm">Price: free</span></div>
+      </div>` : ""}
+      <div class="bar"><div class="container">
+        ${home ? "" : wordmark()}
+        <nav class="sections">${NAV.map(([id, href, label]) => `<a href="${href}"${id === page ? ' class="active" aria-current="page"' : ""}>${label}</a>`).join("")}</nav>
+      </div></div>`;
     document.body.prepend(header);
-    const toggle = $(".nav-toggle", header);
-    toggle.addEventListener("click", () => {
-      const open = header.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open);
-    });
 
     const socials = [
       ["Discord", S.discordUrl],
-      ["Roblox Group", S.robloxGroupUrl],
+      ["Roblox group", S.robloxGroupUrl],
       ["YouTube", S.youtubeUrl],
       ["TikTok", S.tiktokUrl],
     ].filter(([, url]) => url);
@@ -148,71 +152,67 @@
     footer.innerHTML = `
       <div class="container footer-row">
         <div>
-          <a class="brand" href="index.html"><span class="brand-mark">LC</span><span>${esc(S.name || "Larp City")}</span></a>
-          <p class="muted small">A fan-made community site. Not affiliated with Roblox Corporation.</p>
+          ${wordmark()}
+          <p>A fan-run paper for Mayflex. Not affiliated with Roblox Corporation. Every brand in the game is a parody, and so is most of the financial advice.</p>
         </div>
-        <div class="footer-links">
+        <nav class="footer-links">
           ${NAV.map(([, href, label]) => `<a href="${href}">${label}</a>`).join("")}
           ${socials.map(([label, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${label}</a>`).join("")}
-        </div>
-      </div>
-      <div class="container small muted copyright">© ${new Date().getFullYear()} ${esc(S.name || "Larp City")}</div>`;
+        </nav>
+      </div>`;
     document.body.append(footer);
   }
 
-  // ---------- home page ----------
+  // ---------- front page ----------
   function renderHome() {
-    $("#tagline").textContent = S.tagline || "";
     document.querySelectorAll("[data-play]").forEach((a) => (a.href = S.robloxUrl || "#"));
     const discord = $("#discord-btn");
     if (S.discordUrl) discord.href = S.discordUrl;
     else discord.remove();
 
-    $("#stats").innerHTML = (S.stats || [])
-      .map((s) => `<div class="stat"><div class="stat-value">${esc(s.value)}</div><div class="stat-label">${esc(s.label)}</div></div>`)
+    if (S.heroImage) {
+      $("#lead-figure").innerHTML = `<img src="${esc(S.heroImage)}" alt=""><figcaption>${esc(S.heroCaption || "")}</figcaption>`;
+    } else {
+      $("#lead-figure").remove();
+    }
+
+    $("#grind").innerHTML = (S.careers || [])
+      .map((c) => `<li style="--c:${esc(c.color)}"><a href="wiki.html#${esc(c.wiki)}">
+        <span class="name">${esc(c.name)}</span>
+        <span class="tag">“${esc(c.tagline)}”</span>
+        <span class="text">${esc(c.text)}</span>
+      </a></li>`)
       .join("");
 
-    $("#home-careers").innerHTML = (S.careers || [])
-      .map((c) => `<a class="card career-card" href="wiki.html#${esc(c.wiki)}" style="--career:${esc(c.color)}">
-        <div class="feature-icon">${c.icon}</div>
-        <h3>${esc(c.name)}</h3>
-        <p class="career-tagline">${esc(c.tagline)}</p>
-        <p class="muted small">${esc(c.text)}</p>
-      </a>`)
+    $("#contents").innerHTML = categories
+      .map((c) => {
+        const list = articles.filter((a) => a.category === c.id);
+        return `<li><a href="wiki.html#${list[0] ? list[0].id : ""}">${esc(c.name)}</a><span class="fill"></span><span class="n">${list.length} page${list.length === 1 ? "" : "s"}</span></li>`;
+      })
       .join("");
 
-    $("#home-categories").innerHTML = categories.map(categoryCard).join("");
-
-    $("#home-updates").innerHTML = (window.UPDATES || []).slice(0, 2).map(updateCard).join("");
+    $("#briefs").innerHTML = (window.UPDATES || [])
+      .slice(0, 3)
+      .map((u) => `<div class="brief">
+        <span class="kicker">${formatDate(u.date)}</span>
+        <h3>${esc(u.title)}</h3>
+        ${markdown(u.notes || "")}
+      </div>`)
+      .join("");
   }
 
-  function categoryCard(c) {
-    const list = articles.filter((a) => a.category === c.id);
-    const first = list[0];
-    return `<a class="card cat-card" href="wiki.html#${first ? first.id : ""}">
-      <div class="cat-icon">${c.icon || "📄"}</div>
-      <h3>${esc(c.name)}</h3>
-      <p class="muted small">${list.length} article${list.length === 1 ? "" : "s"}</p>
-    </a>`;
-  }
-
-  function updateCard(u) {
-    return `<article class="card update" id="${esc(u.version || u.date)}">
-      <div class="update-meta">
-        <span class="tag tag-${esc(u.tag || "minor")}">${esc(u.tag || "update")}</span>
-        <span class="muted small">${u.version ? esc(u.version) + " · " : ""}${formatDate(u.date)}</span>
-      </div>
-      <h3>${esc(u.title)}</h3>
-      <div class="prose">${markdown(u.notes || "")}</div>
-    </article>`;
-  }
-
-  // ---------- updates page ----------
+  // ---------- patch notes ----------
   function renderUpdates() {
-    $("#updates-list").innerHTML = (window.UPDATES || []).map(updateCard).join("") || `<p class="muted">No updates yet.</p>`;
+    $("#updates-list").innerHTML =
+      (window.UPDATES || [])
+        .map((u) => `<article class="update">
+          <div class="update-date">${formatDate(u.date)}${u.version ? ` · ${esc(u.version)}` : ""}<span class="kicker">${esc(u.tag || "")}</span></div>
+          <div><h2>${esc(u.title)}</h2><div class="prose">${markdown(u.notes || "")}</div></div>
+        </article>`)
+        .join("") || `<p class="muted">Nothing yet.</p>`;
   }
 
-  // ---------- single-article pages (e.g. store.html shows the "store" wiki article) ----------
+  // ---------- single-article pages (store.html shows the "store" wiki article) ----------
   function renderArticlePage() {
     const a = articleById[document.body.dataset.article];
     if (!a) return;
@@ -228,48 +228,39 @@
     const search = $("#wiki-search");
 
     nav.innerHTML = categories
-      .map((c) => {
-        const list = articles.filter((a) => a.category === c.id);
-        return `<div class="wiki-nav-group">
-          <div class="wiki-nav-title">${c.icon || ""} ${esc(c.name)}</div>
-          ${list.map((a) => `<a href="#${a.id}" data-id="${a.id}">${esc(a.title)}</a>`).join("")}
-        </div>`;
-      })
+      .map((c) => `<div class="wiki-nav-group">
+          <div class="wiki-nav-title kicker">${esc(c.name)}</div>
+          ${articles.filter((a) => a.category === c.id).map((a) => `<a href="#${a.id}" data-id="${a.id}">${esc(a.title)}</a>`).join("")}
+        </div>`)
       .join("");
 
     function showHome() {
       document.title = `Wiki · ${S.name}`;
       main.innerHTML = `
-        <h1>${esc(S.name)} Wiki</h1>
-        <p class="lead muted">Everything you need to know about the city: ${articles.length} articles and counting.</p>
-        <div class="grid grid-3">${categories.map(categoryCard).join("")}</div>
-        <h2>All articles</h2>
-        <div class="article-list">${articles.map(articleItem).join("")}</div>`;
-    }
-
-    function articleItem(a) {
-      const c = categoryById[a.category];
-      return `<a class="article-item" href="#${a.id}">
-        <span class="article-item-title">${esc(a.title)}</span>
-        <span class="muted small">${c ? esc(c.name) + " · " : ""}${esc(a.summary || "")}</span>
-      </a>`;
+        <span class="kicker">The ${name} wiki</span>
+        <h1>Everything in Mayflex</h1>
+        <p class="lead-summary">${articles.length} pages on every career, upgrade, gig, car, flat and chain in the game, taken straight from the game's own numbers.</p>
+        <div class="index-grid">${categories
+          .map((c) => `<section class="index-group"><h2>${esc(c.name)}</h2><ul>${articles
+            .filter((a) => a.category === c.id)
+            .map((a) => `<li><a href="#${a.id}">${esc(a.title)}</a><span>${esc(a.summary || "")}</span></li>`)
+            .join("")}</ul></section>`)
+          .join("")}</div>`;
     }
 
     function showArticle(a) {
       const c = categoryById[a.category];
       document.title = `${a.title} · ${S.name} Wiki`;
-      const related = articles.filter((x) => x.category === a.category && x.id !== a.id);
       main.innerHTML = `
-        <nav class="crumbs small"><a href="#">Wiki</a> / ${c ? `<span>${esc(c.name)}</span> / ` : ""}<span>${esc(a.title)}</span></nav>
+        <nav class="crumbs kicker"><a href="#">Wiki</a> / ${c ? esc(c.name) : ""}</nav>
         <h1>${esc(a.title)}</h1>
-        ${a.summary ? `<p class="lead muted">${esc(a.summary)}</p>` : ""}
-        <div class="prose">${markdown(a.body || "")}</div>
-        ${related.length ? `<h2 class="related-title">More in ${esc(c ? c.name : "this category")}</h2><div class="article-list">${related.map(articleItem).join("")}</div>` : ""}`;
+        ${a.summary ? `<p class="lead-summary">${esc(a.summary)}</p>` : ""}
+        <div class="prose">${markdown(a.body || "")}</div>`;
     }
 
     function showMissing(id) {
       document.title = `Not found · ${S.name} Wiki`;
-      main.innerHTML = `<h1>Page not found</h1><p class="muted">There is no wiki page called <code>${esc(id)}</code> yet.</p><p><a href="#">Back to the wiki home</a></p>`;
+      main.innerHTML = `<span class="kicker">Page not found</span><h1>Nothing here</h1><p class="lead-summary">There's no page called <code>${esc(id)}</code>. <a href="#">Back to the index</a>.</p>`;
     }
 
     function showSearch(q) {
@@ -283,9 +274,9 @@
         })
         .filter(Boolean)
         .sort((x, y) => y.score - x.score);
-      main.innerHTML = `<h1>Search results</h1>
-        <p class="muted">${scored.length} result${scored.length === 1 ? "" : "s"} for “${esc(q)}”</p>
-        <div class="article-list">${scored.map((s) => articleItem(s.a)).join("")}</div>`;
+      main.innerHTML = `<span class="kicker">Search</span><h1>“${esc(q)}”</h1>
+        <p class="lead-summary">${scored.length} page${scored.length === 1 ? "" : "s"} found.</p>
+        ${scored.map((s) => `<div class="result"><a href="#${s.a.id}">${esc(s.a.title)}</a><p>${esc(s.a.summary || "")}</p></div>`).join("")}`;
     }
 
     function route() {

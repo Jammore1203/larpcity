@@ -3,99 +3,91 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Larp City — Official Site</title>
+  <meta name="theme-color" content="#141414" />
+  <title>Larp City</title>
   <meta name="description" content="Larp City is a Roblox tycoon about influencer and hustle culture. Read the wiki, see every career, vehicle and property, and check the latest updates." />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body data-page="index">
-  <main>
-    <section class="hero">
-      <div class="container hero-inner">
-        <span class="hero-badge">🎮 A Roblox tycoon set in Mayflex</span>
-        <h1 class="hero-title">Larp City</h1>
-        <p class="hero-tagline" id="tagline"></p>
-        <div class="hero-actions">
-          <a class="btn btn-play" data-play href="#" target="_blank" rel="noopener">▶ Play on Roblox</a>
-          <a class="btn btn-ghost" href="wiki.html">📖 Read the Wiki</a>
-          <a class="btn btn-discord" id="discord-btn" href="#" target="_blank" rel="noopener">💬 Join Discord</a>
+  <main class="container">
+    <section class="front">
+      <article class="lead">
+        <span class="kicker kicker-box">Exclusive</span>
+        <h1 class="headline">Local man quits <span style="white-space:nowrap">9-to-5</span>, buys course on quitting <span style="white-space:nowrap">9-to-5</span></h1>
+        <p class="standfirst">Larp City is a free Roblox tycoon about influencer and hustle culture. Pick a career, grow an audience from your bedroom, and blow the lot on supercars, penthouses and iced chains.</p>
+        <figure class="lead-figure" id="lead-figure"></figure>
+        <div class="columns">
+          <p>Everyone in Mayflex is building something. Mostly it's a ring light. You pick one of five careers: stream on Glitch as an Influencer, dropship phone cases as a Hustler, record for SoundClown as an Artist, mog strangers as a Mogger, or find out what's really going on at the Fringe Substation as a Truther.</p>
+          <p>You earn by playing live minigames at your home setup, then put the money back in: a better mic, a second monitor, a Stream Deck. Every upgrade pays more, keeps money coming in while you're out, and opens up gigs across the island, from a borrowed mic at Mega Mart to a sold-out night at Sticky Floors.</p>
+          <p>Then there's the question of who you want to be. Rug pulls and fake jawline courses pay brilliantly, right up until a Truther exposes you. Stay clean and you could hit Wholesome 100. Go the other way and you're the Final Boss.</p>
         </div>
+        <div class="lead-cta">
+          <a class="btn btn-red" data-play href="#" target="_blank" rel="noopener">Play free on Roblox</a>
+          <a class="btn" href="wiki.html#first-day">Your first day</a>
+          <a class="btn" id="discord-btn" href="#" target="_blank" rel="noopener">Discord</a>
+        </div>
+      </article>
+      <aside class="side">
+        <span class="kicker">Situations vacant</span>
+        <h2 class="display">Pick your grind</h2>
+        <ul class="grind" id="grind"></ul>
+      </aside>
+    </section>
+
+    <section class="row3">
+      <article class="story">
+        <span class="kicker">The Tea</span>
+        <h3>Wholesome 100 or Final Boss?</h3>
+        <p>Rep runs from -100 to +100 and only moves when you act. Heroes get sponsors paying double and 15% off in the shops. The Final Boss gets +50% Clout, a red glow, villain music and a Manhunt at five Heat.</p>
+        <a class="more" href="wiki.html#reputation">Read the tiers →</a>
+      </article>
+      <article class="story">
+        <span class="kicker">Money</span>
+        <h3>Gigs pay double. Every 40 minutes.</h3>
+        <p>Happy Hour runs for five minutes in every forty, on every server at once. On top of that, each week's event pays one or two careers 1.5x. Time your keynote at The Grand Mayflex accordingly.</p>
+        <a class="more" href="wiki.html#gigs">Every gig →</a>
+      </article>
+      <article class="story">
+        <span class="kicker">Business</span>
+        <h3>Open to work. Closed to feedback.</h3>
+        <p>At career level 5, LinkedOut lets you start a company run by NPC staff. Hire carefully. Anyone who calls themselves Very Trustworthy is skimming a third of what they make.</p>
+        <a class="more" href="wiki.html#companies">LinkedOut guide →</a>
+      </article>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2 class="display">Classifieds</h2>
+        <p>Prices straight from the dealers and Mayflex Lettings. No time wasters.</p>
+      </div>
+      <div class="classifieds">
+          <a class="ad hot" href="wiki.html#vehicles"><span class="what">Vauxhaul Corsa</span><span class="price">Free</span><span class="blurb">Everyone's first car. Smells like old fries and the clutch is gone, but it's yours.</span><span class="where">Fringe Motors</span></a>
+          <a class="ad" href="wiki.html#properties"><span class="what">15 Low Battery Lane</span><span class="price">$150,000</span><span class="blurb">Your first place. Two up, two down, damp included.</span><span class="where">Mayflex Lettings</span></a>
+          <a class="ad" href="wiki.html#boats"><span class="what">Tinny Runabout</span><span class="price">$12,000</span><span class="blurb">A wooden boat, an outboard and a lifebuoy. Everything you need, nothing you don't.</span><span class="where">Mayflex Marina</span></a>
+          <a class="ad" href="wiki.html#superbikes"><span class="what">Kawasacky Ninja ZX-10R</span><span class="price">$18,000</span><span class="blurb">Lime green, six-time world champion, and the cheapest way to own a race bike with number plates.</span><span class="where">Redline Moto</span></a>
+          <a class="ad" href="wiki.html#companies"><span class="what">Pop-Up Stall</span><span class="price">$25,000</span><span class="blurb">A folding table, a hand-written sign and a dream. Zoning permit pending.</span><span class="where">LinkedOut</span></a>
+          <a class="ad" href="wiki.html#vehicles"><span class="what">Mercedez G-Wagon</span><span class="price">$90,000</span><span class="blurb">Shaped like a fridge, costs like a house. Climbs kerbs the others won't.</span><span class="where">Apex Mayflex · Kingsway Motors</span></a>
+          <a class="ad" href="wiki.html#drip-closet"><span class="what">Iced Cuban Link</span><span class="price">$75,000</span><span class="blurb">Top of the Chains page. Pairs well with an overdraft.</span><span class="where">Drip Closet</span></a>
+          <a class="ad hot" href="wiki.html#vehicles"><span class="what">Bugotti Chiron</span><span class="price">$3,000,000</span><span class="blurb">Sixteen cylinders, four turbos and a top speed nobody has the road for.</span><span class="where">Velocita Exotics</span></a>
+          <a class="ad" href="wiki.html#properties"><span class="what">Net Curtain Nan's</span><span class="price">$6,500,000</span><span class="blurb">The net curtains stay. She sees everything, and now so do you.</span><span class="where">2 Overdraft Street</span></a>
+          <a class="ad" href="wiki.html#aircraft"><span class="what">Gulfstreem G650</span><span class="price">$12,000,000</span><span class="blurb">Fly to the other side of the world before your coffee goes cold. The ultimate flex.</span><span class="where">Skyline Jet Centre</span></a>
+          <a class="ad" href="wiki.html#properties"><span class="what">Lenny's Place</span><span class="price">$15,000,000</span><span class="blurb">Lenny's moved on. The legend hasn't. The most famous address in Rock Bottom.</span><span class="where">1 Low Battery Lane</span></a>
+          <a class="ad" href="wiki.html#companies"><span class="what">Corporate HQ</span><span class="price">$40,000,000</span><span class="blurb">A whole tower with your name on top. In Comic Sans, unless you pay the designer.</span><span class="where">LinkedOut</span></a>
       </div>
     </section>
 
-    <div class="container"><div class="stats" id="stats"></div></div>
-
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2 class="section-title">Pick your grind</h2>
-            <p class="muted">Five careers, thirteen branches. Start one, add a side hustle later.</p>
-          </div>
-          <a class="btn btn-ghost btn-sm" href="wiki.html#careers-overview">All careers →</a>
-        </div>
-        <div class="grid grid-careers" id="home-careers"></div>
+    <section class="lower">
+      <div>
+        <div class="section-head"><h2 class="display">Inside the wiki</h2></div>
+        <ul class="contents" id="contents"></ul>
       </div>
-    </section>
-
-    <section class="section" style="padding-top:0">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2 class="section-title">Your life in Mayflex</h2>
-            <p class="muted">Everything you can do in Larp City.</p>
-          </div>
-        </div>
-        <div class="grid grid-3">
-          <a class="card" href="wiki.html#home-tycoon"><div class="feature-icon">🏠</div><h3>Build your setup</h3><p class="muted">Play live minigames at home, buy upgrades and watch the passive income roll in, even while you're out.</p></a>
-          <a class="card" href="wiki.html#gigs"><div class="feature-icon">📍</div><h3>Take gigs</h3><p class="muted">Film the supercars, headline Sticky Floors, give a keynote at The Grand Mayflex. Happy Hour pays double.</p></a>
-          <a class="card" href="wiki.html#reputation"><div class="feature-icon">😇</div><h3>Hero or villain</h3><p class="muted">Go Wholesome 100 or hit Final Boss. Scams pay big, but build Heat, and Truthers can expose you.</p></a>
-          <a class="card" href="wiki.html#vehicles"><div class="feature-icon">🏎️</div><h3>Supercars, jets & yachts</h3><p class="muted">From a free Corsa to a $3M Chiron, a Gulfstreem and a superyacht. Tune them at the mod shop.</p></a>
-          <a class="card" href="wiki.html#properties"><div class="feature-icon">🔑</div><h3>Property & drip</h3><p class="muted">Flats, penthouses, mansions and hangars, plus iced chains and $100k watches in the Drip Closet.</p></a>
-          <a class="card" href="wiki.html#companies"><div class="feature-icon">💼</div><h3>Run a company</h3><p class="muted">Hire NPC staff on LinkedOut, dodge the taxman and grow from a pop-up stall to a Corporate HQ.</p></a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" style="padding-top:0">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2 class="section-title">Explore the wiki</h2>
-            <p class="muted">Guides for every job, place and system in the city.</p>
-          </div>
-          <a class="btn btn-ghost btn-sm" href="wiki.html">Open wiki →</a>
-        </div>
-        <div class="grid grid-3" id="home-categories"></div>
-      </div>
-    </section>
-
-    <section class="section" style="padding-top:0">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2 class="section-title">Latest updates</h2>
-            <p class="muted">What's new in the city.</p>
-          </div>
-          <a class="btn btn-ghost btn-sm" href="updates.html">All updates →</a>
-        </div>
-        <div class="grid grid-2" id="home-updates"></div>
-      </div>
-    </section>
-
-    <section class="section" style="padding-top:0">
-      <div class="container">
-        <div class="cta">
-          <h2 class="section-title">Ready to move in?</h2>
-          <p class="muted">Mayflex is waiting. Your first car is free.</p>
-          <div class="hero-actions" style="margin-top:1.5rem">
-            <a class="btn btn-play" data-play href="#" target="_blank" rel="noopener">▶ Play now</a>
-            <a class="btn btn-ghost" href="wiki.html#first-day">📖 Your first day</a>
-          </div>
-        </div>
+      <div>
+        <div class="section-head"><h2 class="display">Patch notes</h2><a class="more" href="updates.html">All of them →</a></div>
+        <div id="briefs"></div>
       </div>
     </section>
   </main>
