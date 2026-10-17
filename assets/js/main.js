@@ -66,7 +66,8 @@
       if (line.trim().startsWith("|")) {
         const rows = [];
         while (i < lines.length && lines[i].trim().startsWith("|")) rows.push(lines[i++].trim());
-        const cells = (r) => r.replace(/^\||\|$/g, "").split("|").map((c) => c.trim());
+        // split on "|", but not the one inside a [[page|label]] link
+        const cells = (r) => r.replace(/^\||\|$/g, "").split(/\|(?![^[]*\]\])/).map((c) => c.trim());
         const body = rows.filter((r) => !/^\|[\s:|-]+\|$/.test(r));
         const [head, ...rest] = body;
         out.push(
@@ -113,7 +114,7 @@
     ["index", "index.html", "Home"],
     ["wiki", "wiki.html", "Wiki"],
     ["updates", "updates.html", "Updates"],
-    ["codes", "codes.html", "Codes"],
+    ["store", "store.html", "Store"],
     ["rules", "rules.html", "Rules"],
   ];
 
@@ -171,6 +172,15 @@
       .map((s) => `<div class="stat"><div class="stat-value">${esc(s.value)}</div><div class="stat-label">${esc(s.label)}</div></div>`)
       .join("");
 
+    $("#home-careers").innerHTML = (S.careers || [])
+      .map((c) => `<a class="card career-card" href="wiki.html#${esc(c.wiki)}" style="--career:${esc(c.color)}">
+        <div class="feature-icon">${c.icon}</div>
+        <h3>${esc(c.name)}</h3>
+        <p class="career-tagline">${esc(c.tagline)}</p>
+        <p class="muted small">${esc(c.text)}</p>
+      </a>`)
+      .join("");
+
     $("#home-categories").innerHTML = categories.map(categoryCard).join("");
 
     $("#home-updates").innerHTML = (window.UPDATES || []).slice(0, 2).map(updateCard).join("");
@@ -187,10 +197,10 @@
   }
 
   function updateCard(u) {
-    return `<article class="card update" id="${esc(u.version)}">
+    return `<article class="card update" id="${esc(u.version || u.date)}">
       <div class="update-meta">
         <span class="tag tag-${esc(u.tag || "minor")}">${esc(u.tag || "update")}</span>
-        <span class="muted small">${esc(u.version)} · ${formatDate(u.date)}</span>
+        <span class="muted small">${u.version ? esc(u.version) + " · " : ""}${formatDate(u.date)}</span>
       </div>
       <h3>${esc(u.title)}</h3>
       <div class="prose">${markdown(u.notes || "")}</div>
@@ -202,26 +212,13 @@
     $("#updates-list").innerHTML = (window.UPDATES || []).map(updateCard).join("") || `<p class="muted">No updates yet.</p>`;
   }
 
-  // ---------- codes page ----------
-  function renderCodes() {
-    const codes = window.CODES || [];
-    const row = (c) => `<div class="code-row${c.active ? "" : " expired"}">
-        <code class="code">${esc(c.code)}</code>
-        <span class="code-reward">${esc(c.reward)}</span>
-        ${c.active ? `<button class="btn btn-ghost btn-sm copy" data-code="${esc(c.code)}">Copy</button>` : `<span class="tag tag-expired">Expired</span>`}
-      </div>`;
-    const active = codes.filter((c) => c.active);
-    const expired = codes.filter((c) => !c.active);
-    $("#codes-active").innerHTML = active.map(row).join("") || `<p class="muted">No active codes right now. Check back after the next update!</p>`;
-    $("#codes-expired").innerHTML = expired.map(row).join("") || `<p class="muted">None.</p>`;
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest(".copy");
-      if (!btn) return;
-      navigator.clipboard?.writeText(btn.dataset.code).then(() => {
-        btn.textContent = "Copied!";
-        setTimeout(() => (btn.textContent = "Copy"), 1500);
-      });
-    });
+  // ---------- single-article pages (e.g. store.html shows the "store" wiki article) ----------
+  function renderArticlePage() {
+    const a = articleById[document.body.dataset.article];
+    if (!a) return;
+    $("#page-title").textContent = a.title;
+    $("#page-summary").textContent = a.summary || "";
+    $("#page-body").innerHTML = markdown(a.body || "");
   }
 
   // ---------- wiki ----------
@@ -315,5 +312,5 @@
   }
 
   renderChrome();
-  ({ index: renderHome, wiki: renderWiki, updates: renderUpdates, codes: renderCodes })[page]?.();
+  ({ index: renderHome, wiki: renderWiki, updates: renderUpdates, store: renderArticlePage })[page]?.();
 })();
