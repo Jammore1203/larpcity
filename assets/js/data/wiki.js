@@ -1773,7 +1773,7 @@ Blanks and skin tones are free. Street brands cost the page's base price, hype b
     category: "map",
     summary: "Districts, landmarks and points of interest.",
     body: `
-Press **M** for the big map. Shops, dealerships, homes and gigs are all on it. Pick a spot to set a GPS route, or save a waypoint.
+There's an [interactive map of Mayflex](map.html) on this site with every property and street. In game, press **M** for the big map: shops, dealerships, homes and gigs are all on it. Pick a spot to set a GPS route, or save a waypoint.
 
 ## Districts
 - **Mayflex:** the town centre. The High Street, Mayflex Savings and Clout Tower.
