@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0e0e11" />
+  <title>Map · Larp City</title>
+  <meta name="description" content="An interactive map of Mayflex with every property, landmark and street in Larp City." />
+  <meta property="og:title" content="Map · Larp City" />
+  <meta property="og:description" content="An interactive map of Mayflex with every property, landmark and street in Larp City." />
+  <meta property="og:image" content="assets/img/mayflex-1200.webp" />
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="map" class="map-body">
+  <main class="map-page">
+    <div class="map-view show-streets" id="map-view">
+      <div class="map-world" id="map-world">
+        <img id="map-img" src="assets/img/mayflex-3000.webp" alt="Map of Mayflex" draggable="false" />
+      </div>
+      <div class="map-ui">
+        <div class="map-panel">
+          <h1>Mayflex</h1>
+          <p>Drawn from the game's own terrain, roads and property data. Drag to move, scroll or pinch to zoom.</p>
+          <label><input type="checkbox" id="t-props" checked /> Properties for sale</label>
+          <label><input type="checkbox" id="t-land" checked /> Landmarks</label>
+          <label><input type="checkbox" id="t-streets" checked /> Street names</label>
+        </div>
+      </div>
+      <div class="zoom-btns">
+        <button id="zoom-in" aria-label="Zoom in">+</button>
+        <button id="zoom-out" aria-label="Zoom out">−</button>
+        <button id="zoom-reset" aria-label="Reset view">⟲</button>
+      </div>
+      <div class="place-card" id="place-card"></div>
+    </div>
+  </main>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/data/wiki.js"></script>
+  <script src="assets/js/data/updates.js"></script>
+  <script src="assets/js/data/map.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

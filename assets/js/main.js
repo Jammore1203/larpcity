@@ -111,34 +111,24 @@
 
   // ---------- header & footer ----------
   const NAV = [
-    ["index", "index.html", "Front Page"],
+    ["index", "index.html", "Home"],
     ["wiki", "wiki.html", "Wiki"],
-    ["updates", "updates.html", "Patch Notes"],
+    ["map", "map.html", "Map"],
+    ["updates", "updates.html", "Updates"],
     ["store", "store.html", "Store"],
     ["rules", "rules.html", "Rules"],
   ];
-  const today = new Date().toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   const name = esc(S.name || "Larp City");
-  const wordmark = (cls = "") =>
-    `<a class="wordmark display ${cls}" href="index.html">${name.replace(/(\S+)$/, "<span>$1</span>")}</a>`;
+  const logo = `<a class="logo" href="index.html">${name.replace(/(\S+)$/, "<b>$1</b>")}</a>`;
 
   function renderChrome() {
-    const home = page === "index";
     const header = document.createElement("header");
-    header.className = "site-header" + (home ? " home" : "");
-    header.innerHTML = `
-      <div class="topbar"><div class="container">
-        <span>Mayflex<span class="hide-sm dim"> · ${esc(today)}</span></span>
-        <a href="${esc(S.robloxUrl || "#")}" target="_blank" rel="noopener">Play free on Roblox →</a>
-      </div></div>
-      ${home ? `<div class="container masthead">
-        <div class="masthead-name display">${name}</div>
-        <div class="masthead-line"><span class="hide-sm">Mayflex edition</span><em>${esc(S.motto || "")}</em><span class="hide-sm">Price: free</span></div>
-      </div>` : ""}
-      <div class="bar"><div class="container">
-        ${home ? "" : wordmark()}
-        <nav class="sections">${NAV.map(([id, href, label]) => `<a href="${href}"${id === page ? ' class="active" aria-current="page"' : ""}>${label}</a>`).join("")}</nav>
-      </div></div>`;
+    header.className = "site-header";
+    header.innerHTML = `<div class="container nav-row">
+        ${logo}
+        <nav class="nav">${NAV.map(([id, href, label]) => `<a href="${href}"${id === page ? ' class="active" aria-current="page"' : ""}>${label}</a>`).join("")}</nav>
+        <a class="btn btn-play" href="${esc(S.robloxUrl || "#")}" target="_blank" rel="noopener">Play</a>
+      </div>`;
     document.body.prepend(header);
 
     const socials = [
@@ -149,67 +139,178 @@
     ].filter(([, url]) => url);
     const footer = document.createElement("footer");
     footer.className = "site-footer";
-    footer.innerHTML = `
-      <div class="container footer-row">
-        <div>
-          ${wordmark()}
-          <p>A fan-run paper for Mayflex. Not affiliated with Roblox Corporation. Every brand in the game is a parody, and so is most of the financial advice.</p>
-        </div>
-        <nav class="footer-links">
-          ${NAV.map(([, href, label]) => `<a href="${href}">${label}</a>`).join("")}
-          ${socials.map(([label, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${label}</a>`).join("")}
-        </nav>
+    footer.innerHTML = `<div class="container footer-row">
+        <span>${name} is a game on Roblox. This site isn't affiliated with Roblox Corporation.</span>
+        <nav class="footer-links">${socials.map(([label, url]) => `<a href="${esc(url)}" target="_blank" rel="noopener">${label}</a>`).join("")}</nav>
       </div>`;
     document.body.append(footer);
   }
 
-  // ---------- front page ----------
+  // ---------- home ----------
   function renderHome() {
+    $("#intro").textContent = S.intro || "";
     document.querySelectorAll("[data-play]").forEach((a) => (a.href = S.robloxUrl || "#"));
     const discord = $("#discord-btn");
     if (S.discordUrl) discord.href = S.discordUrl;
     else discord.remove();
 
-    if (S.heroImage) {
-      $("#lead-figure").innerHTML = `<img src="${esc(S.heroImage)}" alt=""><figcaption>${esc(S.heroCaption || "")}</figcaption>`;
-    } else {
-      $("#lead-figure").remove();
-    }
-
-    $("#grind").innerHTML = (S.careers || [])
-      .map((c) => `<li style="--c:${esc(c.color)}"><a href="wiki.html#${esc(c.wiki)}">
-        <span class="name">${esc(c.name)}</span>
-        <span class="tag">“${esc(c.tagline)}”</span>
-        <span class="text">${esc(c.text)}</span>
-      </a></li>`)
+    $("#careers").innerHTML = (S.careers || [])
+      .map((c) => `<a class="career" href="wiki.html#${esc(c.wiki)}" style="--c:${esc(c.color)}">
+        <h3>${esc(c.name)}</h3>
+        <div class="tag">${esc(c.tagline)}</div>
+        <ul>${(c.branches || []).map((b) => `<li>${esc(b)}</li>`).join("")}</ul>
+      </a>`)
       .join("");
 
-    $("#contents").innerHTML = categories
-      .map((c) => {
-        const list = articles.filter((a) => a.category === c.id);
-        return `<li><a href="wiki.html#${list[0] ? list[0].id : ""}">${esc(c.name)}</a><span class="fill"></span><span class="n">${list.length} page${list.length === 1 ? "" : "s"}</span></li>`;
-      })
-      .join("");
-
-    $("#briefs").innerHTML = (window.UPDATES || [])
-      .slice(0, 3)
-      .map((u) => `<div class="brief">
-        <span class="kicker">${formatDate(u.date)}</span>
+    const u = (window.UPDATES || [])[0];
+    if (u) {
+      $("#latest").innerHTML = `<div class="update-row">
+        <span class="label">${formatDate(u.date)}</span>
         <h3>${esc(u.title)}</h3>
         ${markdown(u.notes || "")}
-      </div>`)
-      .join("");
+      </div>`;
+    }
   }
 
-  // ---------- patch notes ----------
+  // ---------- updates ----------
   function renderUpdates() {
     $("#updates-list").innerHTML =
       (window.UPDATES || [])
-        .map((u) => `<article class="update">
-          <div class="update-date">${formatDate(u.date)}${u.version ? ` · ${esc(u.version)}` : ""}<span class="kicker">${esc(u.tag || "")}</span></div>
-          <div><h2>${esc(u.title)}</h2><div class="prose">${markdown(u.notes || "")}</div></div>
+        .map((x) => `<article class="update">
+          <span class="label">${formatDate(x.date)}</span>${x.tag === "major" ? '<span class="tag-pill major">Major</span>' : ""}
+          <h2>${esc(x.title)}</h2>
+          <div class="prose">${markdown(x.notes || "")}</div>
         </article>`)
         .join("") || `<p class="muted">Nothing yet.</p>`;
+  }
+
+  // ---------- map ----------
+  function renderMap() {
+    const D = window.MAP_DATA || { districts: [], places: [], streets: [] };
+    const view = $("#map-view");
+    const world = $("#map-world");
+    const card = $("#place-card");
+    const money = (n) => "$" + Number(n).toLocaleString("en-US");
+    const TYPE = { apartment: "Apartment", penthouse: "Penthouse", house: "House", mansion: "Mansion", hangar: "Hangar", shop: "Shop" };
+
+    const html = [];
+    D.districts.forEach((d) => html.push(`<div class="mk mk-district" style="left:${d.u * 100}%;top:${d.v * 100}%">${esc(d.name.toUpperCase())}</div>`));
+    D.streets.forEach((s) => html.push(`<div class="mk mk-street${s.major ? " major" : ""}" style="left:${s.u * 100}%;top:${s.v * 100}%;--a:${s.angle}deg">${esc(s.name)}</div>`));
+    D.places.forEach((p, i) => {
+      const cls = p.kind === "property" ? "property" : "landmark";
+      html.push(`<button class="mk mk-pin ${cls}" data-i="${i}" style="left:${p.u * 100}%;top:${p.v * 100}%" aria-label="${esc(p.name)}"></button>`);
+      html.push(`<div class="mk mk-name ${cls}" style="left:${p.u * 100}%;top:${p.v * 100}%">${esc(p.name)}</div>`);
+    });
+    world.insertAdjacentHTML("beforeend", html.join(""));
+
+    // pan / zoom
+    const BASE = 3000;
+    let z = 1, x = 0, y = 0;
+    const minZ = () => Math.max(view.clientWidth, view.clientHeight) / BASE;
+    function apply() {
+      const mz = minZ();
+      z = Math.min(Math.max(z, mz), 2.5);
+      const w = BASE * z;
+      x = Math.min(0, Math.max(view.clientWidth - w, x));
+      y = Math.min(0, Math.max(view.clientHeight - w, y));
+      world.style.width = world.style.height = BASE + "px";
+      world.style.transform = `translate(${x}px, ${y}px) scale(${z})`;
+      world.style.setProperty("--inv", 1 / z);
+      view.classList.toggle("zoom-2", z >= 0.7);
+      view.classList.toggle("zoom-3", z >= 1.25);
+    }
+    function zoomAt(f, cx, cy) {
+      const nz = Math.min(Math.max(z * f, minZ()), 2.5);
+      x = cx - ((cx - x) * nz) / z;
+      y = cy - ((cy - y) * nz) / z;
+      z = nz;
+      apply();
+    }
+    function reset() {
+      z = minZ() * 1.0;
+      // start on the city in the south of the island
+      x = view.clientWidth / 2 - 0.58 * BASE * z;
+      y = view.clientHeight / 2 - 0.62 * BASE * z;
+      apply();
+    }
+
+    const pts = new Map();
+    let last = null, moved = 0;
+    view.addEventListener("pointerdown", (e) => {
+      if (e.target.closest(".map-ui, .zoom-btns, .place-card")) return;
+      view.setPointerCapture(e.pointerId);
+      pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      moved = 0;
+      view.classList.add("dragging");
+    });
+    view.addEventListener("pointermove", (e) => {
+      if (!pts.has(e.pointerId)) return;
+      const prev = pts.get(e.pointerId);
+      pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pts.size === 1) {
+        x += e.clientX - prev.x;
+        y += e.clientY - prev.y;
+        moved += Math.abs(e.clientX - prev.x) + Math.abs(e.clientY - prev.y);
+        apply();
+      } else if (pts.size === 2) {
+        const [a, b] = [...pts.values()];
+        const dist = Math.hypot(a.x - b.x, a.y - b.y);
+        const r = view.getBoundingClientRect();
+        if (last) zoomAt(dist / last, (a.x + b.x) / 2 - r.left, (a.y + b.y) / 2 - r.top);
+        last = dist;
+        moved = 99;
+      }
+    });
+    const up = (e) => {
+      if (pts.size === 1 && moved <= 6) {
+        const pin = document.elementFromPoint(e.clientX, e.clientY)?.closest(".mk-pin");
+        if (pin) openPin(pin);
+      }
+      pts.delete(e.pointerId);
+      if (pts.size < 2) last = null;
+      if (!pts.size) view.classList.remove("dragging");
+    };
+    view.addEventListener("pointerup", up);
+    view.addEventListener("pointercancel", up);
+    view.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const r = view.getBoundingClientRect();
+      zoomAt(Math.exp(-e.deltaY * 0.0015), e.clientX - r.left, e.clientY - r.top);
+    }, { passive: false });
+    $("#zoom-in").onclick = () => zoomAt(1.4, view.clientWidth / 2, view.clientHeight / 2);
+    $("#zoom-out").onclick = () => zoomAt(1 / 1.4, view.clientWidth / 2, view.clientHeight / 2);
+    $("#zoom-reset").onclick = reset;
+    window.addEventListener("resize", apply);
+
+    // place details
+    function openPin(pin) {
+      const p = D.places[pin.dataset.i];
+      world.querySelectorAll(".mk-pin.on").forEach((el) => el.classList.remove("on"));
+      pin.classList.add("on");
+      card.innerHTML = `<button class="x" aria-label="Close">×</button>
+        <span class="label">${p.kind === "property" ? esc(TYPE[p.type] || "Property") + " · " + esc(p.area) : "Landmark"}</span>
+        <h2>${esc(p.name)}</h2>
+        ${p.price ? `<div class="price">${money(p.price)}</div>` : ""}
+        ${p.text ? `<p>${esc(p.text)}</p>` : ""}
+        ${p.kind === "property" ? `<p><a href="wiki.html#properties">All properties →</a></p>` : ""}`;
+      card.classList.add("open");
+      card.querySelector(".x").onclick = () => { card.classList.remove("open"); pin.classList.remove("on"); };
+    }
+    // keyboard users: pins are buttons
+    world.addEventListener("keydown", (e) => {
+      if ((e.key === "Enter" || e.key === " ") && e.target.closest(".mk-pin")) { e.preventDefault(); openPin(e.target.closest(".mk-pin")); }
+    });
+
+    // layer toggles
+    const toggle = (id, cls, on) => $(id).addEventListener("change", (e) => view.classList.toggle(cls, on ? e.target.checked : !e.target.checked));
+    toggle("#t-props", "hide-props", false);
+    toggle("#t-land", "hide-land", false);
+    toggle("#t-streets", "show-streets", true);
+
+    const img = $("#map-img");
+    if (img.complete) reset();
+    else img.addEventListener("load", reset);
+    reset();
   }
 
   // ---------- single-article pages (store.html shows the "store" wiki article) ----------
@@ -229,7 +330,7 @@
 
     nav.innerHTML = categories
       .map((c) => `<div class="wiki-nav-group">
-          <div class="wiki-nav-title kicker">${esc(c.name)}</div>
+          <div class="wiki-nav-title label">${esc(c.name)}</div>
           ${articles.filter((a) => a.category === c.id).map((a) => `<a href="#${a.id}" data-id="${a.id}">${esc(a.title)}</a>`).join("")}
         </div>`)
       .join("");
@@ -237,9 +338,8 @@
     function showHome() {
       document.title = `Wiki · ${S.name}`;
       main.innerHTML = `
-        <span class="kicker">The ${name} wiki</span>
-        <h1>Everything in Mayflex</h1>
-        <p class="lead-summary">${articles.length} pages on every career, upgrade, gig, car, flat and chain in the game, taken straight from the game's own numbers.</p>
+        <h1>${name} Wiki</h1>
+        <p class="lead-summary">${articles.length} pages. Numbers come from the game's own config, so they match what you see in game.</p>
         <div class="index-grid">${categories
           .map((c) => `<section class="index-group"><h2>${esc(c.name)}</h2><ul>${articles
             .filter((a) => a.category === c.id)
@@ -252,7 +352,7 @@
       const c = categoryById[a.category];
       document.title = `${a.title} · ${S.name} Wiki`;
       main.innerHTML = `
-        <nav class="crumbs kicker"><a href="#">Wiki</a> / ${c ? esc(c.name) : ""}</nav>
+        <nav class="crumbs label"><a href="#">Wiki</a> / ${c ? esc(c.name) : ""}</nav>
         <h1>${esc(a.title)}</h1>
         ${a.summary ? `<p class="lead-summary">${esc(a.summary)}</p>` : ""}
         <div class="prose">${markdown(a.body || "")}</div>`;
@@ -260,7 +360,7 @@
 
     function showMissing(id) {
       document.title = `Not found · ${S.name} Wiki`;
-      main.innerHTML = `<span class="kicker">Page not found</span><h1>Nothing here</h1><p class="lead-summary">There's no page called <code>${esc(id)}</code>. <a href="#">Back to the index</a>.</p>`;
+      main.innerHTML = `<h1>Page not found</h1><p class="lead-summary">There's no page called <code>${esc(id)}</code>. <a href="#">Back to the index</a>.</p>`;
     }
 
     function showSearch(q) {
@@ -274,7 +374,7 @@
         })
         .filter(Boolean)
         .sort((x, y) => y.score - x.score);
-      main.innerHTML = `<span class="kicker">Search</span><h1>“${esc(q)}”</h1>
+      main.innerHTML = `<h1>Search: ${esc(q)}</h1>
         <p class="lead-summary">${scored.length} page${scored.length === 1 ? "" : "s"} found.</p>
         ${scored.map((s) => `<div class="result"><a href="#${s.a.id}">${esc(s.a.title)}</a><p>${esc(s.a.summary || "")}</p></div>`).join("")}`;
     }
@@ -303,5 +403,5 @@
   }
 
   renderChrome();
-  ({ index: renderHome, wiki: renderWiki, updates: renderUpdates, store: renderArticlePage })[page]?.();
+  ({ index: renderHome, wiki: renderWiki, updates: renderUpdates, store: renderArticlePage, map: renderMap })[page]?.();
 })();

@@ -10,22 +10,24 @@ It's a plain static site (HTML, CSS and JavaScript) with **no build step**. Edit
 |---|---|
 | Home | `index.html` |
 | Wiki (search, categories, articles) | `wiki.html` |
+| Interactive map of Mayflex | `map.html` |
 | Updates / patch notes | `updates.html` |
 | Store (shows the `store` wiki article) | `store.html` |
 | Rules & FAQ | `rules.html` |
 
 ## Editing content
 
-All the content you'll usually change lives in three files:
+All the content you'll usually change lives in these files:
 
-- **`assets/js/config.js`**: game name, tagline, your Roblox game link, Discord, socials, home page stats and the career cards.
+- **`assets/js/config.js`**: game name, tagline, your Roblox game link, Discord, socials and the careers on the home page.
 - **`assets/js/data/wiki.js`**: wiki categories and articles. To add an article, copy an existing block and change the `id`, `title`, `category`, `summary` and `body`. Bodies use simple Markdown:
   - `## Heading`, `**bold**`, `*italic*`, `- lists`, `1. lists`, `| tables |`
   - `[[article-id]]` or `[[article-id|custom text]]` links to another wiki page (works inside tables too).
   - `> [!TIP]`, `> [!NOTE]` or `> [!WARNING]` on its own line starts a callout box
 - **`assets/js/data/updates.js`**: patch notes, newest first.
+- **`assets/js/data/map.js`** and **`assets/img/mayflex-*.webp`**: the map. Both were generated from the game's terrain, road, `MapSystem` and `PropertyCatalog` data, so they match the island in game.
 
-The rules and FAQ are written directly in `rules.html`. Colours are at the top of `assets/css/style.css`.
+The rules and FAQ are written directly in `rules.html`. Colours are at the top of `assets/css/style.css` and match the in-game phone UI.
 
 > The wiki was generated from the game's scripts (careers, upgrade trees, gigs, vehicles, properties, store, reputation...) as of the Oct 17, 2026 build. When you change numbers in the game, update the matching article.
 
